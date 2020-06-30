@@ -14,7 +14,7 @@ could be as simple as multiplying each number in an array of numbers by a
 certain factor, or adding them all together to obtain their sum.
 
 There are certainly ways to perform these tasks using `for` or `while` loops,
-bot those solutions have the disadvantage of being complex to read and reason
+but those solutions have the disadvantage of being complex to read and reason
 about (we have to do a lot of thinking to understand the code).
 
 Today, we're going to learn about some Array methods that make transforming data
