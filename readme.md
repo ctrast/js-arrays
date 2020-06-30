@@ -105,6 +105,7 @@ The impact of this is we can:
 - pass functions as arguments to another function
 - return a function from a function
 
+<details>
 > Open up a [repl.it](https://repl.it/languages/javascript) and see for
 > yourself!
 
@@ -113,6 +114,7 @@ The impact of this is we can:
 > 1. Create a function that takes a function as an argument. How do you invoke
 >    it?
 > 1. Create a function that returns another function. How do you invoke them?
+</details>
 
 Taking functions as arguments and returning functions is a little advanced, so
 we're just going to touch on it today. But the significance is: a function that
