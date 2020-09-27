@@ -1,235 +1,108 @@
-# Array Iteration Methods & Higher-Order Functions
+[![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
+
+# Array Iteration Methods
+Today, we're going to learn about some Array methods that make transforming data in arrays easier. These methods are also a lot more flexible and powerful than using a loop, with the additional benefit that they are generally considered easier to read.
+
+## Prerequisites
+
+* Array
+* JavaScript Function
 
 ## Learning Objectives
 
-- Define higher-order functions
-- Use higher-order functions to iterate over arrays
-- Describe the uses of `forEach`, `map`, `filter`, and `reduce`
-- Define `every` and `some`
+  - Callback Functions 
+  - `forEach()` 
+  - `map()`
+  - `filter()`
+  - `reduce()`
+  - `every()`
+  - `some()`
 
-## Framing & Review (15 min / 0:15)
 
-Today we will cover some array methods which are used to transform arrays. This
-could be as simple as multiplying each number in an array of numbers by a
-certain factor, or adding them all together to obtain their sum.
+<br>
 
-There are certainly ways to perform these tasks using `for` or `while` loops,
-but those solutions have the disadvantage of being complex to read and reason
-about (we have to do a lot of thinking to understand the code).
+# Introduction (15 min / 0:15)
+<img src="https://i.imgur.com/wVPKb5D.png">
 
-Today, we're going to learn about some Array methods that make transforming data
-in arrays easier. These methods are also a lot more flexible and powerful than
-using a loop, with the additional benefit that they are generally considered
-easier to read.
+JavaScript Arrays have lots of helpful built-in methods.
 
-Before we get in to these methods, however, we want to do a quick review of
-JavaScript functions and introduce a new topic, Higher-Order Functions.
+These methods allow you to write more **declarative/functional** code as opposed to **imperative** code.
 
-### Review JavaScript Collections
+## Imperative Programming
 
-Numbers, Strings, and Booleans are our basic building blocks of data but on
-their own, they don't express much. We use collections, most commonly Objects
-and Arrays, to build up data to describe more complex entities.
+Imperative programming is a more step-by-step way of writing code.
 
-**Arrays** hold their elements in sequence and are generally used to store
-collections of related things.
-
-**Objects** hold their elements in key-value pairs and are generally used either
-to store & look up values (like word definitions in a dictionary), or to
-describe some thing or entity with various attributes.
-
-### Review JavaScript Functions
-
-What is a function?
-
-- Defined block of code that can be called by later code
-- Functions are defined with zero or more **parameters**
-  - **Parameters** are the variables for the function inputs upon definition
-  - **Arguments** are the values passed in to the function when it is called
-
-<details>
-  <summary> What is a method? </summary>
-  A method is a function that is defined on an object or class. Methods begin with a <code>.</code>, since they are object-properties. For example, <code>.push()</code> and <code>.reverse()</code> are methods, specifically <code>Array</code> methods.
-</details>
-
-#### Function Declaration
+`for` loops, for example, are imperative: 
 
 ```js
-function sum(a, b) {
-  // function "sum" defined with parameters a and b
-  return a + b
+for (let index = 0; index < array.length; index++) {
+    // do stuff
 }
 ```
 
-#### Function Expression
+With a `for` loop we're saying:
+
+1. Initialize a looping variable
+2. Use the looping variable to access an element in the array
+3. Increment the looping variable
+4. If the looping variable is less than the length of the array, loop again
+
+## Declarative Programming
+
+In declarative programming, we write code that describes what we want to do:
 
 ```js
-// ES5 Style
-var sum = function(a, b) {
-  return a + b
-}
-
-// ES6 Style, with Arrow Functions
-const sum = (a, b) => a + b
+array.forEach(function(val) {
+    // do stuff
+});
 ```
 
-#### Function Invocation (calling a function)
+*How* are we iterating? Don't need to worry about that.
 
-```js
-sum(3, 4) // function "sum" called with arguments a and b
-// => 7
-```
+<br>
 
-Functions always return a value, either...
+# Callback Functions
 
-1. whatever follows a function's **return** statement
-2. or if there is no return statement, the function returns the value
-   `undefined`.
 
-```js
-// in a repl, like the chrome console
-console.log("hello!")
-// 'hello!'
-// => undefined
-//// console.log() returns `undefined`, which appears below the console-logged message
-```
+<br>
 
-### Functions as Values (5 minutes / 0:20)
+# `.forEach()` (20 minutes / :45)
 
-One of the things that makes JavaScript so powerful is that we can reference
-functions and treat them like values stored in a variable.
-
-The impact of this is we can:
-
-- add functions to arrays and objects, just like any other value
-- pass functions as arguments to another function
-- return a function from a function
-
-<details>
-> Open up a [repl.it](https://repl.it/languages/javascript) and see for
-> yourself!
-
-> 1. Create an array and add a function to it in the first index. How do you
->    invoke it?
-> 1. Create a function that takes a function as an argument. How do you invoke
->    it?
-> 1. Create a function that returns another function. How do you invoke them?
-</details>
-
-Taking functions as arguments and returning functions is a little advanced, so
-we're just going to touch on it today. But the significance is: a function that
-takes a function as an argument is called a _higher-order function._
-
-## Higher-Order Functions
-
-Functions that take other functions as arguments or return them as output are
-called **higher-order functions**. The array methods that we're going to learn
-today all fit this definition: they are functions (methods of the Array object)
-that take a function as an argument and use it to transform an array of data.
-The purpose is to provide a level of abstraction and simplify array iteration
-(going through each element in an array and performing some operation).
-
-### Passing Functions to Functions (5 minutes / 0:25)
-
-In order to explore some of the higher-order functions JavaScript provides,
-let's set up a simple development environment:
-
-1. Create a directory called `js-higher-order-functions` in your `sandbox`
-   directory.
-1. Inside of it create an `index.html` file and a `script.js` file.
-1. Add boilerplate to `index.html`, link the script, then add a `console.log` to
-   the script to make sure everything is wired up properly.
-
-We'll use the following array for the next few examples:
-
-```js
-const words = ["hello", "this", "is", "a", "stickup", "gimme", "your", "wallet"]
-```
-
-### .forEach() (20 minutes / :45)
+**PURPOSE:** General purpose iterator method.
 
 Very frequently, we will want to go through an array and do something for every
 element in the array.
 
-As an example, we'll loop through the above array printing each value one at a
+As an example, we'll loop through the array bellow printing each value one at a
 time.
 
-Without higher-order functions, we would need to use a loop to perform this task
-(and we can do so in JS)...
-
 ```js
-for (let i = 0; i < words.length; i++) {
-  console.log(words[i])
-}
-```
+const friends = ["Ross", "Rachel", "Joey", "Monica", "Phoebe", "Chandler"];
 
-If we want, we can write a function that encapsulates the operation taken on
-each instructor object:
-
-```js
-function printWord(word) {
-  console.log(word)
-}
-```
-
-And then rewrite the loop to call this function and pass in each instructor
-object as an argument...
-
-```js
-function printWord(word) {
-  console.log(word)
-}
-
-for (let i = 0; i < words.length; i++) {
-  printWord(words[i])
+for (let i = 0; i < friends.length; i++) {
+  console.log(`Sending email to ${friends[i]}`)
 }
 ```
 
 This process of iterating through an array is so common that JavaScript provides
-an array method for it called `forEach`. Methods are functions attached to an
-object (in this case, attached to the Array). Let's get rid of the `for` loop
+an array method for it called `forEach`. Let's get rid of the `for` loop
 and replace it with a `forEach`.
 
 ```js
-function printWord(word) {
-  console.log(word)
-}
+friends.forEach(function(element){
+  console.log(`Sending email to ${friends[i]}`)
+})
 
-words.forEach(printWord)
-```
-
-> Note that here we are _referencing_ the `printWord` function, not invoking it.
-> Don't write this: `words.forEach(printWord())`
-
-This will go through each object in the `words` array and execute the
-`printWord` function for each object in it, passing each object into the
-function as an argument.
-
-Commonly, we might write this using an _anonymous function_ (unnamed) instead of
-a _named function_ (as we did above). An anonymous function is simply a function
-without a name, that we declare **inline**, or in place of a function argument.
-
-If we changed the above code to use an anonymous function, it would look like
-this:
-
-```js
-words.forEach(function(word) {
-  console.log(word)
+// or 
+// ES6 arrow function
+friends.forEach((element) => {
+  console.log(`Sending email to ${friends[i]}`)
 })
 ```
 
-> Note that this is functionally no different than the above code snippet, only
-> here we are defining an anonymous function in place, instead of defining one
-> externally and referencing it as an argument.
+This will go through each element in the `friends` array and execute the
+**`callback`** function for each element in it. **Very important**, notice that we have to pass an argument to the callback, this argument will represent each element in the array.
 
-We could rewrite this to use ES6 arrow functions as well. This is the most
-common form you'll see of these functions:
-
-```js
-words.forEach(word => {
-  console.log(word)
-})
-```
 
 #### You Do: `.forEach` ( 5 minutes / 0:50)
 
@@ -505,6 +378,43 @@ const numEvens = [1, 2, 3, 4, 5, 6, 7].reduce((count, num) => {
 
 For a step by step of how the mechanics work, check out
 [this section on the MDN page for reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce#How_reduce_works).
+
+## Trends in Development
+
+Current trends in development are pushing toward using declarative code over imperative code when possible.
+
+This walk-thru summarizes Array _iterator_ methods, that is, methods that declaratively iterate over an array's elements.
+
+<br>
+
+# Method Summary
+
+| Method | Purpose | Returns | Callback Should | Callback's Args |
+| --- | --- | :-: | --- | --- |
+| `forEach(cb)` | General purpose |`undefined` | Do whatever you want | `(elem, idx, array)` | 
+| `map(cb)` | Create new array from source array | new array | Modify each element as desired and return it | `(elem, idx, array)` | 
+| `reduce(cb, initAcc)` | Reduce the array to a single value/object | final value of `acc` | Return the new value for `acc` | `(acc, elem, idx, array)` | 
+| `filter(cb)` | Filter source array | new array | Return truthy if `elem` is to be included | `(elem, idx, array)` | 
+| `find(cb)` | Find an element | the first `elem` found | Return truthy if `elem` is what you're looking for | `(elem, idx, array)` |
+| `findIndex(cb)` | Find a certain element's **index** | the index of the first `elem` found | Return truthy if `elem` is what you're looking for | `(elem, idx, array)` |
+| `some(cb)` | Check if array has something | `true` or `false` | Return truthy if `elem` is what you're checking for | `(elem, idx, array)` |
+| `every(cb)` | Check if every `elem` passes condition | `true` or `false` | Return truthy if `elem` is what you're checking for | `(elem, idx, array)` |
+
+
+Note that each of the methods invoke a callback function for each iteration - _usually_ once for each element, however, the following methods will "short circuit" and stop iterating when the callback returns a truthy value:
+
+- `find`
+- `findIndex`
+- `some`
+- `every` (stops iterating when a falsey value is returned)
+
+> **VOCAB:** Note that the `filter`, `find`, `findIndex`, `some` and `every` iterator methods rely on the truthy-ness or falsey-ness returned by the callback function. Such a function, written to return true/false values, is called a **predicate**. 
+
+Notice that all of the iterator methods, except `reduce`, have identical signatures, that is, they all accept a single argument - a callback function.
+
+Additionally, the signature of the callback functions are all the same as well!
+
+This fact makes it easier to remember the syntax of these important methods, with the `reduce` method being the only one that varies slightly.
 
 #### Bonus: Sort (10 minutes / 2:20)
 
