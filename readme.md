@@ -1,7 +1,7 @@
 [![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
 # Array Iteration Methods
-Today, we're going to learn about some Array methods that make transforming data in arrays easier. These methods are also a lot more flexible and powerful than using a loop, with the additional benefit that they are generally considered easier to read.
+Today, we're going to learn about some Array methods These methods are also a lot more flexible and powerful than using a loop, with the additional benefit that they are generally considered easier to read.
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@ Today, we're going to learn about some Array methods that make transforming data
 
 ## Learning Objectives
 
-  - Callback Functions 
+  - Higher-Order Function and Callback
   - `forEach()` 
   - `map()`
   - `filter()`
@@ -18,11 +18,9 @@ Today, we're going to learn about some Array methods that make transforming data
   - `every()`
   - `some()`
 
-
 <br>
 
 # Introduction (15 min / 0:15)
-<img src="https://i.imgur.com/wVPKb5D.png">
 
 JavaScript Arrays have lots of helpful built-in methods.
 
@@ -61,47 +59,92 @@ array.forEach(function(val) {
 
 <br>
 
-# Callback Functions
+## Functions as Values (5 minutes / 0:20)
+One of the things that makes JavaScript so powerful is that we can reference functions and treat them like values stored in a variable.
+
+The impact of this is we can:
+
+- Add functions to arrays and objects, just like any other value
+- Pass functions as arguments to another function
+- Return a function from a function
+
+Taking functions as arguments and returning functions is a little advanced, so we're just going to touch on it today. But the significance is: a function that takes a function as an argument is called a *higher-order function.*
+
+<br>
+
+## Higher-Order Function and Callback
+In a nut shell:
+
+**`Higher-order function`** is a function that take other functions as arguments or return them as output.<br>
+**`Callback function`** is a function thats is passed into another function as an argument
+
+**example:**
+```js
+// this is my callback function
+sayHello = function(name){ 
+  return `Hi, ${name}!`;
+}
+
+// this is my higher-order function
+sendMessage = function(callback){  
+  return callback
+} 
+
+sendMessage(sayHello("Robert")); // output:=>  'Hi, Robert!'
+```
+
+The array methods that we're going to learn today all fit this definition: they are functions (methods of the Array object) that take a function as an argument and use it to iterate over the array. The purpose is to provide a level of abstraction and simplify array iteration (going through each element in an array and performing some operation).
 
 
 <br>
 
-# `.forEach()` (20 minutes / :45)
+# Higher-Order Array Methods
+<img src="https://i.imgur.com/wVPKb5D.png">
+
+<br>
+
+<hr>
+
+## `.forEach()` (20 minutes / :45)
 
 **PURPOSE:** General purpose iterator method.
 
 Very frequently, we will want to go through an array and do something for every
 element in the array.
 
-As an example, we'll loop through the array bellow printing each value one at a
-time.
+As an example, we'll loop through the array bellow printing each value a time.
 
 ```js
-const friends = ["Ross", "Rachel", "Joey", "Monica", "Phoebe", "Chandler"];
+const friends = ["ross", "rachel", "joey", "monica", "phoebe", "chandler"];
 
 for (let i = 0; i < friends.length; i++) {
   console.log(`Sending email to ${friends[i]}`)
 }
 ```
 
-This process of iterating through an array is so common that JavaScript provides
-an array method for it called `forEach`. Let's get rid of the `for` loop
-and replace it with a `forEach`.
+This process of iterating through an array is so common that JavaScript provides an array method for it called `forEach`. Let's get rid of the `for` loop and replace it with a `forEach`.
 
 ```js
-friends.forEach(function(element){
-  console.log(`Sending email to ${friends[i]}`)
-})
+// declaring my callback function
+function sendEmail(name){
+  console.log(`Sending email to ${name}`)
+}
+
+// Involking the higher-order array method passing the "sendEmail" function as callback.
+friends.forEach(sendEmail)
 
 // or 
-// ES6 arrow function
+// the same thing but using the ES6 arrow function
 friends.forEach((element) => {
-  console.log(`Sending email to ${friends[i]}`)
+  console.log(`Sending email to ${element}`)
 })
+
+// or ES6 full power fancy one-liner
+friends.forEach(element => console.log(`Sending email to ${element}`))
 ```
 
 This will go through each element in the `friends` array and execute the
-**`callback`** function for each element in it. **Very important**, notice that we have to pass an argument to the callback, this argument will represent each element in the array.
+**`callback`** function for each element in it. **Very important**, notice that the argument of the callback will represent each element in the array.
 
 
 #### You Do: `.forEach` ( 5 minutes / 0:50)
@@ -111,58 +154,38 @@ Use `.forEach` to print the message
 `"${programmingLanguage} is a programming language!"`, replacing
 `${programmingLanguage}` with one of the languages in your array.
 
-<!--
-#### Return Value
+<hr>
 
-When using any function or method, it is important to keep in mind the return
-value that it will output. With `forEach`, the return value is `undefined`. As
-such, we should use `forEach` when we want to _use_ each item in an array to
-produce some _side effect_, but **not** to produce a new version of the array.
-
-For example, this would be a misuse of `forEach`:
-
-```js
-let letters = ["a", "b", "c"]
-let capLetters = letters.forEach(letter => {
-  return letter.toUpperCase() //this return is pointless
-})
-console.log(capLetters)
-// => undefined
-console.log(letters)
-// ["A", "B", "C"]
-```
--->
-
+#### We Do: `.forEach` ( 5 minutes / 0:50)
 Let's step up the `.forEach` example a bit.
 
-Using the same list of words, let's create a new list of uppercased words.
+Using the same array, let's create a new array with all names uppercased.
 
 ```js
-let newWords = []
-words.forEach(word => {
-  let uppercased = word.toUpperCase()
-  newWords.push(uppercased)
+const friendsUpperCase = []
+friends.forEach(name => {
+  const uppercasedName = name.toUpperCase()
+  friendsUpperCase.push(uppercasedName)
 })
 
-console.log(newWords)
-// ​​​​​[ 'HELLO', 'THIS', 'IS', 'A', 'STICKUP', 'GIMME', 'YOUR', 'WALLET' ]​​​​​
+console.log(friendsUpperCase)
+// ["ROSS", "RACHEL", "JOEY", "MONICA", "PHOEBE", "CHANDLER"]
 ```
 
-Cool, so we can iterate through a list of words and create a new list from it,
-but the example is still a bit rough. We don't like creating functions that have
+Cool, so we can iterate through a array and create a new list from it, but the example is still a bit rough. We don't like creating functions that have
 **side effects** because it's bad practice.
 
 > When a function changes or affects something outside of itself, it's
 > considered a side-effect.
 
-There's a much cleaner way. We can create a new, modified version of an array,
-without affecting the old array.
-
-Enter the `map` function.
 
 ## Break
 
-#### .map() (20 minutes / 1:10)
+<br>
+
+<hr>
+
+## `.map()` (20 minutes / 1:10)
 
 We've discussed functions that were called for their **side effect** versus
 functions that are called for their **return value** or **output**. In the
@@ -176,7 +199,7 @@ producing a new, modified version of the array.
 between the two is that you **must always return something from map**. In
 `forEach`, returning anything is pointless.
 
-Using the same `words` array from before, let's do the same transformation (by
+Using the same `friends` array from before, let's do the same transformation (by
 capitalizing each word). Only this time, we'll do it better.
 
 We'll start by writing them separately.
@@ -187,17 +210,17 @@ function makeUpperCase(word) {
   return upper
 }
 
-const uppercaseWords = words.map(makeUpperCase)
+const uppercaseWords = friends.map(makeUpperCase)
 
 console.log(uppercaseWords)
-// ​​​​​[ 'HELLO', 'THIS', 'IS', 'A', 'STICKUP', 'GIMME', 'YOUR', 'WALLET' ]
+//["ROSS", "RACHEL", "JOEY", "MONICA", "PHOEBE", "CHANDLER"]
 ```
 
 Lovely! So let's refactor it now.
 
 ```js
-const uppercaseWords = words.map(function(word) {
-  let upper = word.toUpperCase()
+const uppercaseWords = friends.map(function(name) {
+  let upper = name.toUpperCase()
   return upper
 })
 ```
@@ -206,8 +229,8 @@ We can condense it even further, by making it into an arrow function and moving
 the logic all into one line.
 
 ```js
-const uppercaseWords = words.map(word => {
-  return word.toUpperCase()
+const uppercaseWords = friends.map(name => {
+  return name.toUpperCase()
 })
 ```
 
@@ -215,7 +238,7 @@ Finally, let's rely on the implicit return of arrow functions for some truly
 beautiful code.
 
 ```js
-const uppercaseWords = words.map(word => word.toUpperCase())
+const uppercaseWords = friends.map(name => name.toUpperCase())
 ```
 
 Map is truly the greatest.
@@ -250,13 +273,12 @@ const numbers = [
 
 ### Break (10 min / 1:25)
 
-#### Practicing with Map (15 min, 1:40)
+<br>
 
-(10 min, 5 Review)
+<hr>
 
-[CodeWars](https://www.codewars.com/kata/coding-meetup-number-2-higher-order-functions-series-greet-developers)
 
-### Filter (20 minutes / 2:00)
+## `.filter()` (20 minutes / 2:00)
 
 Another common procedure is to filter elements from an array based on some
 custom condition.
@@ -306,11 +328,6 @@ function **returns true** when called on each item.
 
 #### Practice with Arrays of Objects (15 minutes / 2:15)
 
-> (10 minutes working / 5 minutes discussing)
-
-Use either your `script.js` file you've been working in or open
-[repl.it](https://repl.it/languages/javascript).
-
 - Declare a variable `states`.
 - Assign to it the array of objects from `capitals.json` in this repo.
   > ⌘+A: Select All, copy & paste
@@ -322,7 +339,11 @@ Use either your `script.js` file you've been working in or open
 2. Filter all the states with capitals that start with the letter `A`.
 3. List all the states with two words in their name.
 
-### [Reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) (15 minutes / 2:30)
+<br>
+
+<hr>
+
+## `.Reduce()`(15 minutes / 2:30)
 
 The most flexible array method function is called `reduce`. Reduce, as the name
 implies, can take an array and reduce it to a single value. However, since it is
