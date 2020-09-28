@@ -179,13 +179,13 @@ Cool, so we can iterate through a array and create a new list from it, but the e
 > considered a side-effect.
 
 
-## Break
-
 <br>
 
 <hr>
 
 ## `.map()` (20 minutes / 1:10)
+
+**PURPOSE:** Create a new array from a source array, usually "transforming" its values. The returned array is always the same length as the source array.
 
 We've discussed functions that were called for their **side effect** versus
 functions that are called for their **return value** or **output**. In the
@@ -280,6 +280,8 @@ const numbers = [
 
 ## `.filter()` (20 minutes / 2:00)
 
+**PURPOSE:** Select certain elements from a source array.
+
 Another common procedure is to filter elements from an array based on some
 custom condition.
 
@@ -326,24 +328,26 @@ const bigNums = numbers.filter(num => {
 `filter` will return a new array composed of items for which the passed in
 function **returns true** when called on each item.
 
-#### Practice with Arrays of Objects (15 minutes / 2:15)
+### You do: Arrays of Objects (15 minutes / 2:15)
 
 - Declare a variable `states`.
-- Assign to it the array of objects from `capitals.json` in this repo.
+- Assign to it the array of objects from [`capitals.js`](capitals.js) in this repo.
   > ⌘+A: Select All, copy & paste
 - Using the array iteration methods we were just looking at, create the
   following values (keep track of your answers)
 
-1. Create an array of strings for each capital with the city and state name
-   (e.g. `'Austin, Texas'`)
-2. Filter all the states with capitals that start with the letter `A`.
-3. List all the states with two words in their name.
+
+1. Create a array called `allCapitalsA` with all the states with capitals that start with the letter `A`.
+
+2. Create a array called `allStatesTwoWords` with all the states with two words in their name.
 
 <br>
 
 <hr>
 
 ## `.Reduce()`(15 minutes / 2:30)
+
+**PURPOSE:** Reduce an array into a single value. Note that the "single value" can be a single object, array - anything.
 
 The most flexible array method function is called `reduce`. Reduce, as the name
 implies, can take an array and reduce it to a single value. However, since it is
