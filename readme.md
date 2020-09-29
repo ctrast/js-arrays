@@ -470,4 +470,5 @@ Look it up for this other array methods, run some tests and see if you can get i
 ## Reference
 
 [Higher-order functions video series](https://www.youtube.com/watch?v=BMUiFMZr7vk&ab_channel=FunFunFunction)
+
 [Array Reference on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)
