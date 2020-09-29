@@ -15,8 +15,6 @@ Today, we're going to learn about some Array methods These methods are also a lo
   - `map()`
   - `filter()`
   - `reduce()`
-  - `every()`
-  - `some()`
 
 <br>
 
@@ -55,6 +53,11 @@ array.forEach(function(val) {
 });
 ```
 
+## Trends in Development
+
+Current trends in development are pushing toward using declarative code over imperative code when possible.
+
+This walk-thru summarizes Array _iterator_ methods, that is, methods that declaratively iterate over an array's elements.
 *How* are we iterating? Don't need to worry about that.
 
 <br>
@@ -72,7 +75,7 @@ Taking functions as arguments and returning functions is a little advanced, so w
 
 <br>
 
-## Higher-Order Function and Callback
+## Higher-Order Function and Callback (5 minutes / 0:25)
 In a nut shell:
 
 **`Higher-order function`** is a function that take other functions as arguments or return them as output.<br>
@@ -105,7 +108,7 @@ The array methods that we're going to learn today all fit this definition: they 
 
 <hr>
 
-## `.forEach()` (20 minutes / :45)
+## `.forEach()` (20 minutes / 0:45)
 
 **PURPOSE:** General purpose iterator method.
 
@@ -147,7 +150,7 @@ This will go through each element in the `friends` array and execute the
 **`callback`** function for each element in it. **Very important**, notice that the argument of the callback will represent each element in the array.
 
 
-#### You Do: `.forEach` ( 5 minutes / 0:50)
+### You Do: `.forEach` ( 5 minutes / 0:50)
 
 In your `script.js`, create an array of programming languages you've heard of.
 Use `.forEach` to print the message
@@ -156,7 +159,7 @@ Use `.forEach` to print the message
 
 <hr>
 
-#### We Do: `.forEach` ( 5 minutes / 0:50)
+### We Do: `.forEach` ( 5 minutes / 0:55)
 Let's step up the `.forEach` example a bit.
 
 Using the same array, let's create a new array with all names uppercased.
@@ -183,7 +186,7 @@ Cool, so we can iterate through a array and create a new list from it, but the e
 
 <hr>
 
-## `.map()` (20 minutes / 1:10)
+## `.map()` (20 minutes / 1:15)
 
 **PURPOSE:** Create a new array from a source array, usually "transforming" its values. The returned array is always the same length as the source array.
 
@@ -243,7 +246,7 @@ const uppercaseWords = friends.map(name => name.toUpperCase())
 
 Map is truly the greatest.
 
-### You do: mapping the numbers (5 min / 1:15)
+### You do: mapping the numbers (10 min / 1:25)
 
 Using the array of numbers provided below, write a map function that squares
 each number (multiplies it by itself). You should end up with another array of
@@ -271,21 +274,22 @@ const numbers = [
 ]
 ```
 
-### Break (10 min / 1:25)
+
 
 <br>
 
-<hr>
 
 
-## `.filter()` (20 minutes / 2:00)
+# Break (10 min / 1:35)
+
+<br>
+
+## `.filter()` (20 minutes / 1:55)
 
 **PURPOSE:** Select certain elements from a source array.
 
 Another common procedure is to filter elements from an array based on some
-custom condition.
-
-The condition must return true or false. If it returns true, the element is kept
+custom condition. The condition must return true or false. If it returns true, the element is kept
 and stored in the new array. If false, it's skipped.
 
 Use the numbers array above for this exercise.
@@ -309,13 +313,13 @@ for (let i = 0; i < numbers.length; i++) {
 }
 ```
 
-Like `.map()` and `.forEach()`, `.filter()` is available directly on arrays:
+Or we can use `.filter()` 
 
 ```js
 const bigNums = numbers.filter(greaterThan100)
 ```
 
-Or using an anonymous function:
+The same thing but using an anonymous function:
 
 ```js
 const bigNums = numbers.filter(num => {
@@ -328,31 +332,25 @@ const bigNums = numbers.filter(num => {
 `filter` will return a new array composed of items for which the passed in
 function **returns true** when called on each item.
 
-### You do: Arrays of Objects (15 minutes / 2:15)
+### You do: `.filter()` (15 minutes / 2:10)
 
 - Declare a variable `states`.
 - Assign to it the array of objects from [`capitals.js`](capitals.js) in this repo.
-  > ⌘+A: Select All, copy & paste
-- Using the array iteration methods we were just looking at, create the
-  following values (keep track of your answers)
+- Using `.filter()` you should be able to:
+  1. Create a array called `allCapitalsA` with all the states with capitals that start with the letter `A`.
 
-
-1. Create a array called `allCapitalsA` with all the states with capitals that start with the letter `A`.
-
-2. Create a array called `allStatesTwoWords` with all the states with two words in their name.
+  2. Create a array called `allStatesTwoWords` with all the states with two words in their name.
 
 <br>
 
 <hr>
 
-## `.Reduce()`(15 minutes / 2:30)
+## `.reduce()`(20 minutes / 2:30)
 
 **PURPOSE:** Reduce an array into a single value. Note that the "single value" can be a single object, array - anything.
 
 The most flexible array method function is called `reduce`. Reduce, as the name
-implies, can take an array and reduce it to a single value. However, since it is
-the most flexible of the array iteration methods, it can implement the
-functionality of `map`, `filter`, `forEach`, etc.
+implies, can take an array and reduce it to a single value. 
 
 Reduce is usually difficult to grasp at first; don't stress about this. It is
 definitely not something you need to have mastered, it is just good to have an
@@ -365,50 +363,61 @@ We can take the sum of an array of numbers (i.e. reduce the set of numbers to a
 sum):
 
 ```js
-const total = [1, 3, 5, 7].reduce((sum, num) => sum + num, 0)
-```
+const nums = [25, 6, 100, 3]
 
-Mapping with reduce:
+// function that returnn the sum of two numbers
+const add = (num1, num2) => num1 + num2
+const sum = nums.reduce(add)
+console.log(sum)
+//output: 134
+
+// using an arrow function for the callback
+const sum = nums.reduce((num1, num2) => num1 + num2)
+console.log(sum)
+//output: 134
+```
+Other example, Count votes
 
 ```js
-const stickup = words.reduce((instructions, word) => {
-  instructions.push(word.toUpperCase())
-  return instructions
-}, [])
-```
+const votes = ['Yes', 'No', 'No', 'Yes', 'Yes'];
 
-Filtering even numbers:
+const tally = votes.reduce(function(acc, vote) {
+  acc[vote] = acc[vote] ? acc[vote] + 1 : 1;
+  return acc;
+}, {});
+
+// tally is {"No": 2, "Yes": 3}
+
+//using an arrow function for the callback 
+let tally = votes.reduce((acc, vote) => {
+  acc[vote] = acc[vote] ? acc[vote] + 1 : 1;
+  return acc;
+}, {});
+```
+<br>
+
+### You do: `.reduce()` (15 minutes / 2:45)
+
+Using the array of objects bellow, use `.reduce()` to sum the population of all cities.
 
 ```js
-const odds = [1, 2, 3, 4, 5, 6, 7].reduce((odds, num) => {
-  if (num % 2) {
-    // false if num % 2 === 0
-    odds.push(num)
-  }
-  return odds
-}, [])
+const cities = [
+  {name: "Tokyo", population: 37400068},
+  {name: "Delhi", population: 28514000},
+  {name: "Shanghai", population: 25582000},
+  {name: "São Paulo", population: 21650000},
+  {name: "Mexico City", population: 21581000},
+  {name: "Cairo", population: 20076000},
+  {name: "Mumbai", population: 19980000},
+  {name: "Beijing", population: 19618000},
+  {name: "Dhaka", population: 19578000},
+  {name: "Osaka", population: 19281000},
+  {name: "New York City", population: 18819000}
+  ]
+
+
+// the answer is 252079068
 ```
-
-Or count even numbers:
-
-```js
-const numEvens = [1, 2, 3, 4, 5, 6, 7].reduce((count, num) => {
-  if (!(num % 2)) {
-    // false if num % 2 !== 0
-    count++
-  }
-  return count
-}, 0)
-```
-
-For a step by step of how the mechanics work, check out
-[this section on the MDN page for reduce](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce#How_reduce_works).
-
-## Trends in Development
-
-Current trends in development are pushing toward using declarative code over imperative code when possible.
-
-This walk-thru summarizes Array _iterator_ methods, that is, methods that declaratively iterate over an array's elements.
 
 <br>
 
@@ -425,15 +434,7 @@ This walk-thru summarizes Array _iterator_ methods, that is, methods that declar
 | `some(cb)` | Check if array has something | `true` or `false` | Return truthy if `elem` is what you're checking for | `(elem, idx, array)` |
 | `every(cb)` | Check if every `elem` passes condition | `true` or `false` | Return truthy if `elem` is what you're checking for | `(elem, idx, array)` |
 
-
-Note that each of the methods invoke a callback function for each iteration - _usually_ once for each element, however, the following methods will "short circuit" and stop iterating when the callback returns a truthy value:
-
-- `find`
-- `findIndex`
-- `some`
-- `every` (stops iterating when a falsey value is returned)
-
-> **VOCAB:** Note that the `filter`, `find`, `findIndex`, `some` and `every` iterator methods rely on the truthy-ness or falsey-ness returned by the callback function. Such a function, written to return true/false values, is called a **predicate**. 
+<br>
 
 Notice that all of the iterator methods, except `reduce`, have identical signatures, that is, they all accept a single argument - a callback function.
 
@@ -441,76 +442,22 @@ Additionally, the signature of the callback functions are all the same as well!
 
 This fact makes it easier to remember the syntax of these important methods, with the `reduce` method being the only one that varies slightly.
 
-#### Bonus: Sort (10 minutes / 2:20)
+<hr>
 
-The `sort` method is another higher-order function.
 
-If no input function is supplied, values are sorted as strings by default.
+<br>
 
-```js
-["chips", "salsa", "guacamole", "cheese", "jalapenos", "sour cream"].sort()
-// => [ 'cheese', 'chips', 'guacamole', 'jalapenos', 'salsa', 'sour cream' ]
-```
+## Bonus: 
 
-If the elements are not strings, it converts them to strings and sorts based on
-**unicode** values (alphabetized but with all uppercase characters before all
-lower case characters).
+Look it up for this other array methods, run some tests and see if you can get it to work :wink:
 
-This leads to the odd behavior of `10` being sorted in front of `2`...
+- `.find()`
+- `.findIndex()`
+- `.some()`
+- `.every()`
 
-```js
-[111, 2, 10, 20, 3, -1, 12].sort()
-// => [-1, 10, 111, 12, 2, 20, 3]
-```
 
-To make the sort method work as expected, you can write a compare function. It
-takes two arguments `a` and `b`, which represent any two elements being sorted.
-
-Rather than returning `true` or `false` as in the case of the other test
-functions we've looked at, the elements are sorted according to the return value
-of the compare function:
-
-- return a negative number if `a` should come before `b`
-- return 0 if `a` and `b` are equal
-- return a positive number if `a` should come after `b`
-
-```js
-function compareNumbers(a, b) {
-  return a - b
-}
-
-let array = [111, 2, 10, 20, 3, -1, 12]
-
-// with a named function
-array.sort(compareNumbers)
-// => [-1, 1, 2, 3, 10, 12, 20]
-
-// with an anonymous function
-array.sort((a, b) => a - b)
-// => [-1, 1, 2, 3, 10, 12, 20]
-```
-
-How would we write a compare function to sort our capitals from most northern to
-most southern?
-
-### Looking Forward: Callbacks (5 minutes / 2:25)
-
-While array iteration methods are a very common example of higher-order
-functions, an even more common time that we want to pass functions as arguments
-to other functions is called a callback.
-
-These are ideas we'll cover in depth in a couple of classes but consider the
-following at a high level as a primer.
-
-Callbacks passed to another function to be called at some later time.
-
-All the examples that we have looked at use the function being passed as an
-argument immediately (and repeatedly).
-
-Callbacks are generally called at some time in the future. What types of things
-might we want to trigger a function call on?
-
-### Review and Questions (5 minutes / 2:30)
+### Review and Questions
 
 - Check out the
   [Coding Meetup Kata's](http://www.codewars.com/kata/coding-meetup-number-1-higher-order-functions-series-count-the-number-of-javascript-developers-coming-from-europe)
@@ -519,8 +466,8 @@ might we want to trigger a function call on?
   JavaScript elective)
 - [Eloquent JS Higher-Order Functions](http://eloquentjavascript.net/05_higher_order.html)
 
-#### Review
 
-- What is the difference between output and a side effect?
-- What is the difference between an argument and a parameter?
-- What is the difference between referencing and invoking a function?
+## Reference
+
+[Higher-order functions video series](https://www.youtube.com/watch?v=BMUiFMZr7vk&ab_channel=FunFunFunction)
+[Array Reference on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)
